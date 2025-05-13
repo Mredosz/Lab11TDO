@@ -26,16 +26,16 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
-                sh '''
-                    mkdir -p ${CLASS_DIR} ${TEST_DIR} ${REPORT_DIR}
+                    steps {
+                        script {
+                            sh 'mkdir -p target/classes target/test-classes target/reports'
 
-                    javac -cp "demo/lib/*" -d ${CLASS_DIR} $(find demo/src/main/java -name "*.java")
-                    javac -cp "${CLASS_DIR}:lib/*" -d ${TEST_DIR} $(find demo/src/test/java -name "*.java")
-                '''
-                stash includes: "${CLASS_DIR}/**,${TEST_DIR}/**,demo/lib/**", name: 'compiled'
-            }
-        }
+                            sh 'javac -cp demo/lib/* -d target/classes demo/src/main/java/com/example/demo/DemoApplication.java'
+
+                            sh 'javac -cp target/classes:demo/lib/* -d target/test-classes demo/src/test/java/com/example/demo/DemoApplicationTests.java'
+                        }
+                    }
+                }
 
         stage('Test') {
             steps {
