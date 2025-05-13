@@ -6,14 +6,12 @@ pipeline {
         CLASS_DIR = "${TARGET_DIR}/classes"
         TEST_DIR = "${TARGET_DIR}/test-classes"
         REPORT_DIR = "${TARGET_DIR}/reports"
-
-        API_KEY = credentials('api-key-id')
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/your-username/your-public-java-repo.git', branch: 'main'
+                git url: 'https://github.com/Mredosz/Lab11TDO.git', branch: 'main'
             }
         }
 
