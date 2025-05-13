@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Katalogi
         TARGET_DIR = "target"
         CLASS_DIR = "${TARGET_DIR}/classes"
         TEST_DIR = "${TARGET_DIR}/test-classes"
@@ -10,7 +9,7 @@ pipeline {
 
         // Credentials
         GIT_CREDENTIALS_ID = 'git-credentials-id'
-        API_KEY = credentials('api-key-id')  // Wstrzyknięcie sekretu jako zmienna środowiskowa
+        API_KEY = credentials('api-key-id')
     }
 
     stages {
