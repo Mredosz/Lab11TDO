@@ -7,22 +7,13 @@ pipeline {
         TEST_DIR = "${TARGET_DIR}/test-classes"
         REPORT_DIR = "${TARGET_DIR}/reports"
 
-        // Credentials
-        GIT_CREDENTIALS_ID = 'git-credentials-id'
         API_KEY = credentials('api-key-id')
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'git@your-private-repo-url.git',
-                        credentialsId: "${GIT_CREDENTIALS_ID}"
-                    ]]
-                ])
+                git url: 'https://github.com/your-username/your-public-java-repo.git', branch: 'main'
             }
         }
 
