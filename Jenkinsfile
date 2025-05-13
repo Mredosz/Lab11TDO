@@ -26,10 +26,16 @@ pipeline {
         }
 
         stage('Build') {
-                    steps {
-                        sh 'mvn clean package'
-                    }
-                }
+            steps {
+                sh '''
+                    mkdir -p ${CLASS_DIR} ${TEST_DIR} ${REPORT_DIR}
+
+                    javac -cp "demo/lib/*" -d ${CLASS_DIR} $(find demo/src/main/java -name "*.java")
+                    javac -cp "${CLASS_DIR}:lib/*" -d ${TEST_DIR} $(find demo/src/test/java -name "*.java")
+                '''
+                stash includes: "${CLASS_DIR}/**,${TEST_DIR}/**,demo/lib/**", name: 'compiled'
+            }
+        }
 
         stage('Test') {
             steps {
