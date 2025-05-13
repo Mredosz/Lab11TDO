@@ -18,8 +18,8 @@ pipeline {
         stage('Validation') {
             steps {
                 sh '''
-                    [ -d demo/src/main/java ] || { echo "Brakuje katalogu src/main/java"; exit 1; }
-                    [ -d demo/src/test/java ] || { echo "Brakuje katalogu src/test/java"; exit 1; }
+                    [ -d demo/src/main/java ] || { echo "Brakuje katalogu demo/src/main/java"; exit 1; }
+                    [ -d demo/src/test/java ] || { echo "Brakuje katalogu demo/src/test/java"; exit 1; }
                     [ -d demo/lib ] || { echo "Brakuje katalogu lib"; exit 1; }
                 '''
             }
