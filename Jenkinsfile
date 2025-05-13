@@ -26,25 +26,28 @@ pipeline {
         }
 
         stage('Build') {
-                    steps {
-                        script {
-                            sh 'mkdir -p target/classes target/test-classes target/reports'
+            steps {
+                script {
+                    // Tworzymy wymagane katalogi
+                    sh 'mkdir -p target/classes target/test-classes target/reports'
 
-                            sh 'javac -cp demo/lib/* -d target/classes demo/src/main/java/com/example/demo/DemoApplication.java'
+                    // Kompilacja aplikacji bez uwzględniania katalogu lib
+                    sh 'javac -cp . -d target/classes demo/src/main/java/com/example/demo/DemoApplication.java'
 
-                            sh 'javac -cp target/classes:demo/lib/* -d target/test-classes demo/src/test/java/com/example/demo/DemoApplicationTests.java'
-                        }
-                    }
+                    // Kompilacja testów bez uwzględniania katalogu lib
+                    sh 'javac -cp target/classes -d target/test-classes demo/src/test/java/com/example/demo/DemoApplicationTests.java'
                 }
+            }
+        }
 
         stage('Test') {
             steps {
-                unstash 'compiled'
                 script {
+                    // Uruchomienie testów, zakładając, że mamy odpowiednią wersję JUnit w katalogu lib
                     try {
                         sh '''
                             java -jar lib/junit-platform-console-standalone-*.jar \
-                                --class-path ${CLASS_DIR}:${TEST_DIR}:lib/* \
+                                --class-path ${CLASS_DIR}:${TEST_DIR} \
                                 --scan-class-path \
                                 --reports-dir=${REPORT_DIR}
                         '''
