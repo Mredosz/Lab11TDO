@@ -31,7 +31,7 @@ pipeline {
                     mkdir -p ${CLASS_DIR} ${TEST_DIR} ${REPORT_DIR}
 
                     javac -cp "demo/lib/*" -d ${CLASS_DIR} $(find demo/src/main/java -name "*.java")
-                    javac -cp "${CLASS_DIR}:demo/lib/*" -d ${TEST_DIR} $(find demo/src/test/java -name "*.java")
+                    javac -cp "demo/${CLASS_DIR}:demo/lib/*" -d demo/${TEST_DIR} $(find demo/src/test/java -name "*.java")
                 '''
                 stash includes: 'demo/target/classes/**,demo/target/test-classes/**,demo/lib/**', name: 'compiled'
             }
