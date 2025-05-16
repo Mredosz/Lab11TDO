@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/user/repo.git', branch: 'main'
+                git url: 'https://github.com/Mredosz/Lab11TDO.git', branch: 'main'
             }
         }
 
