@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        TARGET_DIR = 'target'
+        BASE_DIR = 'demo'
+        TARGET_DIR = "${BASE_DIR}/target"
         CLASS_DIR = "${TARGET_DIR}/classes"
         TEST_DIR = "${TARGET_DIR}/test-classes"
         REPORT_DIR = "${TARGET_DIR}/reports"
@@ -30,10 +31,13 @@ pipeline {
                 sh '''
                     mkdir -p ${CLASS_DIR} ${TEST_DIR} ${REPORT_DIR}
 
-                    javac -cp "demo/lib/*" -d ${CLASS_DIR} $(find demo/src/main/java -name "*.java")
-                    javac -cp "demo/${CLASS_DIR}:demo/lib/*" -d demo/${TEST_DIR} $(find demo/src/test/java -name "*.java")
+                    # Kompilacja kodu aplikacji
+                    javac -cp "${BASE_DIR}/lib/*" -d ${CLASS_DIR} $(find ${BASE_DIR}/src/main/java -name "*.java")
+
+                    # Kompilacja testów
+                    javac -cp "${CLASS_DIR}:${BASE_DIR}/lib/*" -d ${TEST_DIR} $(find ${BASE_DIR}/src/test/java -name "*.java")
                 '''
-                stash includes: 'demo/target/classes/**,demo/target/test-classes/**,demo/lib/**', name: 'compiled'
+                stash includes: "${TARGET_DIR}/classes/**,${TARGET_DIR}/test-classes/**,${BASE_DIR}/lib/**", name: 'compiled'
             }
         }
 
@@ -43,8 +47,8 @@ pipeline {
                 script {
                     try {
                         sh '''
-                            java -jar lib/junit-platform-console-standalone-*.jar \
-                                --class-path target/classes:target/test-classes:lib/* \
+                            java -jar ${BASE_DIR}/lib/junit-platform-console-standalone-*.jar \
+                                --class-path ${CLASS_DIR}:${TEST_DIR}:${BASE_DIR}/lib/* \
                                 --scan-class-path \
                                 --reports-dir=${REPORT_DIR}
                         '''
