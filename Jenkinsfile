@@ -6,8 +6,6 @@ pipeline {
         CLASS_DIR = "${TARGET_DIR}/classes"
         TEST_DIR = "${TARGET_DIR}/test-classes"
         REPORT_DIR = "${TARGET_DIR}/reports"
-
-        API_KEY = credentials('api-key-id')
     }
 
     stages {
