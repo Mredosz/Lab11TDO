@@ -1,5 +1,0 @@
-services:
-  orders:
-    build: .
-    networks:
-      - backend_net

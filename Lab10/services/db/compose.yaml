@@ -1,9 +1,0 @@
-services:
-  db:
-    image: postgres:15
-    secrets:
-      - db_password
-    environment:
-      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
-    networks:
-      - backend_net

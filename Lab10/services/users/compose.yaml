@@ -1,6 +1,0 @@
-services:
-  users:
-    build: .
-    networks:
-      - frontend_net
-      - backend_net
